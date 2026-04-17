@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CECCE · Oferta académica</title>
+  <meta name="description" content="Elige tu licenciatura en CECCE: toda la información disponible al instante, sin ventanas emergentes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Manrope', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    ul { list-style: none; }
+    img, svg { display: block; max-width: 100%; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+    :root {
+      --navy: #0C447C;
+      --navy-dark: #042C53;
+      --blue: #185FA5;
+      --blue-tint: #E6F1FB;
+      --green: #639922;
+      --green-dark: #3B6D11;
+      --green-light: #97C459;
+      --green-tint: #EAF3DE;
+      --green-text: #27500A;
+      --paper: #F7F5EF;
+      --paper-warm: #EFECDF;
+      --line: rgba(12, 68, 124, 0.14);
+      --line-strong: rgba(12, 68, 124, 0.28);
+      --ink: #1a1a1a;
+      --ink-muted: #5a5a55;
+      --ink-soft: #8a8880;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Top announcement bar */
+    .topbar {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 0;
+      font-size: 13px;
+    }
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar .meta { display: flex; gap: 24px; opacity: 0.85; font-size: 12.5px; }
+    .topbar .meta a { display: inline-flex; align-items: center; gap: 7px; transition: opacity 0.2s; }
+    .topbar .meta a:hover { opacity: 1; }
+    .topbar .meta svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .topbar .wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 12.5px;
+      transition: background 0.2s;
+    }
+    .topbar .wa:hover { background: var(--green-dark); }
+    .topbar .wa svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Sticky navigation */
+    .nav {
+      background: rgba(247, 245, 239, 0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 19px;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+    .logo-mark {
+      width: 38px; height: 38px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Manrope', sans-serif;
+      letter-spacing: 0.04em;
+      position: relative;
+    }
+    .logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border: 1px solid var(--green);
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    .nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+    .nav-links a { color: var(--ink-muted); transition: color 0.2s; position: relative; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links a.active { color: var(--navy); }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: -6px;
+      height: 2px;
+      background: var(--green);
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 24px 32px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-text);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fade-up 0.6s ease 0.05s forwards;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      background: var(--green);
+    }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: clamp(36px, 6vw, 60px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--navy);
+      margin-bottom: 24px;
+      max-width: 900px;
+      opacity: 0;
+      animation: fade-up 0.7s ease 0.12s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green-dark);
+      font-weight: 500;
+    }
+    .hero .lead {
+      font-size: 18px;
+      color: var(--ink-muted);
+      max-width: 620px;
+      line-height: 1.55;
+      opacity: 0;
+      animation: fade-up 0.7s ease 0.2s forwards;
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Program browser */
+    .browser {
+      max-width: 1200px;
+      margin: 0 auto 96px;
+      padding: 0 24px;
+      opacity: 0;
+      animation: fade-up 0.8s ease 0.3s forwards;
+    }
+    .browser-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* Left: program index */
+    .index-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 4px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .index-list { display: flex; flex-direction: column; }
+    .index-item {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      width: 100%;
+      text-align: left;
+      position: relative;
+      transition: padding 0.25s ease;
+    }
+    .index-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 20%;
+      bottom: 20%;
+      width: 3px;
+      background: var(--green);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .index-item .num {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      font-variant-numeric: tabular-nums;
+      transition: color 0.25s;
+    }
+    .index-item .name {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      line-height: 1.25;
+      transition: color 0.25s;
+    }
+    .index-item .arrow {
+      width: 20px; height: 20px;
+      stroke: var(--ink-soft);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.25s, transform 0.25s, stroke 0.25s;
+    }
+    .index-item:hover .name,
+    .index-item:hover .num { color: var(--navy); }
+    .index-item.active::before { transform: scaleY(1); }
+    .index-item.active .num { color: var(--green-dark); font-style: italic; }
+    .index-item.active .name { color: var(--navy); font-weight: 600; }
+    .index-item.active .arrow { opacity: 1; transform: translateX(0); stroke: var(--navy); }
+
+    .index-aside {
+      margin-top: 32px;
+      padding: 24px;
+      background: var(--paper-warm);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+    .index-aside h4 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 17px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .index-aside p {
+      font-size: 13.5px;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .index-aside a.mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      border-bottom: 1px solid var(--green);
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .index-aside a.mini:hover { color: var(--green-dark); }
+
+    /* Right: detail card */
+    .detail {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 44px;
+      transition: opacity 0.3s ease;
+    }
+    .detail.switching { opacity: 0.3; }
+    .detail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .kicker .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+    .detail-head h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: clamp(28px, 3.2vw, 36px);
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+      color: var(--navy);
+      margin-bottom: 14px;
+      max-width: 560px;
+    }
+    .detail-head .desc {
+      font-size: 15.5px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      max-width: 580px;
+    }
+    .rvoe {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--green-tint);
+      color: var(--green-text);
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .rvoe::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(99, 153, 34, 0.2);
+    }
+
+    /* Facts */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      margin-bottom: 36px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .fact {
+      background: #fff;
+      padding: 18px 20px;
+      transition: background 0.2s;
+    }
+    .fact:hover { background: var(--paper); }
+    .fact .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+    .fact .label svg { width: 13px; height: 13px; stroke: var(--green-dark); fill: none; stroke-width: 1.8; }
+    .fact .val {
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    /* Meta (two columns) */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 36px;
+    }
+    .meta-group h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .meta-group h3 .dash {
+      flex: 0 0 18px;
+      height: 2px;
+      background: var(--green);
+    }
+    .meta-group li {
+      font-size: 14.5px;
+      color: var(--ink-muted);
+      padding: 9px 0 9px 22px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .meta-group li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 15px;
+      width: 10px; height: 2px;
+      background: var(--green);
+    }
+
+    /* CTAs */
+    .ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 0.15s ease, background 0.2s, color 0.2s, border-color 0.2s;
+      border: 1.5px solid transparent;
+      font-family: 'Manrope', sans-serif;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn.primary {
+      background: var(--green);
+      color: #fff;
+    }
+    .btn.primary:hover { background: var(--green-dark); }
+    .btn.secondary {
+      border-color: var(--line-strong);
+      color: var(--navy);
+      background: #fff;
+    }
+    .btn.secondary:hover { background: var(--paper); border-color: var(--navy); }
+    .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .btn.primary svg.wa-icon { fill: currentColor; stroke: none; }
+
+    /* Footer callout */
+    .callout {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .callout-inner {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 20px;
+      padding: 52px 56px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .callout-inner::before {
+      content: '';
+      position: absolute;
+      right: -120px;
+      top: -120px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: var(--blue);
+      opacity: 0.55;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .callout-inner::after {
+      content: '';
+      position: absolute;
+      left: -80px;
+      bottom: -100px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: var(--green);
+      opacity: 0.3;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .callout h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: clamp(26px, 3vw, 36px);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .callout h2 em { color: var(--green-light); font-style: italic; font-weight: 500; }
+    .callout .callout-lead {
+      color: rgba(255,255,255,0.78);
+      font-size: 15.5px;
+      line-height: 1.6;
+      position: relative;
+      max-width: 480px;
+    }
+    .callout-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      position: relative;
+    }
+    .callout .btn.primary { background: var(--green); }
+    .callout .btn.primary:hover { background: var(--green-dark); }
+    .callout .btn.secondary {
+      border-color: rgba(255,255,255,0.3);
+      color: #fff;
+      background: transparent;
+    }
+    .callout .btn.secondary:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* Footer */
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding: 32px 24px;
+      color: var(--ink-muted);
+      font-size: 13.5px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-inner .brand-note {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      color: var(--navy);
+    }
+    .footer-inner .brand-note .dash {
+      width: 24px;
+      height: 1px;
+      background: var(--line-strong);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .browser-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .index-title { display: none; }
+      .index-list {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 4px 24px 4px 24px;
+        margin: 0 -24px;
+        scrollbar-width: none;
+      }
+      .index-list::-webkit-scrollbar { display: none; }
+      .index-item {
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 220px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        scroll-snap-align: start;
+        background: #fff;
+        grid-template-columns: none;
+        gap: 6px;
+      }
+      .index-item::before { display: none; }
+      .index-item .num { font-size: 12px; }
+      .index-item .name { font-size: 14.5px; }
+      .index-item .arrow { display: none; }
+      .index-item.active {
+        background: var(--navy);
+        border-color: var(--navy);
+      }
+      .index-item.active .num { color: var(--green-light); font-style: italic; }
+      .index-item.active .name { color: #fff; }
+      .index-aside { display: none; }
+      .callout-inner {
+        grid-template-columns: 1fr;
+        padding: 36px 32px;
+      }
+      .callout-ctas { justify-content: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 48px 24px 24px; }
+      .detail { padding: 28px 22px; border-radius: 14px; }
+      .detail-head { flex-direction: column; gap: 14px; padding-bottom: 24px; margin-bottom: 24px; }
+      .meta-grid { grid-template-columns: 1fr; gap: 28px; }
+      .nav-links { display: none; }
+      .topbar .meta { display: none; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .callout-inner { padding: 28px 24px; }
+    }
+    @media (max-width: 420px) {
+      .facts { grid-template-columns: 1fr; }
+      .topbar-inner { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="meta">
+        <a href="mailto:cecce.ingresos@gmail.com">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          cecce.ingresos@gmail.com
+        </a>
+        <a href="tel:+525581946388">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7 13 13 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4 13 13 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"/></svg>
+          55 8194 6388
+        </a>
+      </div>
+      <a class="wa" href="https://wa.me/525581946388">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8 0 1.7 1.2 3.3 1.4 3.5.2.2 2.4 3.7 5.8 5.2.8.3 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.7-.7 2-1.4.3-.6.3-1.2.2-1.3-.1-.2-.3-.2-.6-.4zM12 3C7 3 3 7 3 12c0 1.6.4 3.1 1.2 4.4L3 21l4.7-1.2c1.3.7 2.7 1.1 4.3 1.1 5 0 9-4 9-9s-4-8.9-9-8.9z"/></svg>
+        Informes por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#">
+        <span class="logo-mark">CE</span>
+        <span>CECCE</span>
+      </a>
+      <div class="nav-links">
+        <a href="#">Inicio</a>
+        <a href="#" class="active">Oferta académica</a>
+        <a href="#">Requisitos</a>
+        <a href="#">Contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="eyebrow">Oferta académica · Generación 2026</div>
+    <h1>Elige tu próxima <em>licenciatura</em> sin abrir una sola ventana emergente.</h1>
+    <p class="lead">Cuatro programas con RVOE oficial. Toda la información —costos, duración, horarios, modalidades y titulación— visible al instante.</p>
+  </section>
+
+  <section class="browser" aria-label="Navegador de licenciaturas">
+    <div class="browser-grid">
+      <aside>
+        <div class="index-title">Licenciaturas</div>
+        <div class="index-list" role="tablist" id="indexList">
+          <button class="index-item active" role="tab" aria-selected="true" data-i="0">
+            <span class="num">01</span>
+            <span class="name">Pedagogía</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="index-item" role="tab" aria-selected="false" data-i="1">
+            <span class="num">02</span>
+            <span class="name">Derecho</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="index-item" role="tab" aria-selected="false" data-i="2">
+            <span class="num">03</span>
+            <span class="name">Negocios internacionales</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="index-item" role="tab" aria-selected="false" data-i="3">
+            <span class="num">04</span>
+            <span class="name">Administración de empresas</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="index-aside">
+          <h4>¿Aún tienes dudas?</h4>
+          <p>Un asesor educativo puede ayudarte a elegir la carrera correcta y explicarte el proceso de inscripción.</p>
+          <a class="mini" href="https://wa.me/525581946388">Hablar con un asesor →</a>
+        </div>
+      </aside>
+
+      <article class="detail" id="detail" role="tabpanel" aria-live="polite">
+        <div class="detail-head">
+          <div>
+            <div class="kicker"><span class="dot"></span><span id="kickerText">Licenciatura 01</span></div>
+            <h2 id="progName">Licenciatura en pedagogía</h2>
+            <p class="desc" id="progDesc">Forma profesionales capaces de diseñar, gestionar y evaluar procesos educativos en contextos diversos.</p>
+          </div>
+          <span class="rvoe">RVOE oficial</span>
+        </div>
+
+        <div class="facts" id="facts"></div>
+
+        <div class="meta-grid">
+          <div class="meta-group">
+            <h3><span class="dash"></span>Lo que te vas a llevar</h3>
+            <ul id="highlights"></ul>
+          </div>
+          <div class="meta-group">
+            <h3><span class="dash"></span>Requisitos de ingreso</h3>
+            <ul id="requisitos"></ul>
+          </div>
+        </div>
+
+        <div class="ctas">
+          <a class="btn primary" href="https://wa.me/525581946388">
+            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8 0 1.7 1.2 3.3 1.4 3.5.2.2 2.4 3.7 5.8 5.2.8.3 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.7-.7 2-1.4.3-.6.3-1.2.2-1.3-.1-.2-.3-.2-.6-.4zM12 3C7 3 3 7 3 12c0 1.6.4 3.1 1.2 4.4L3 21l4.7-1.2c1.3.7 2.7 1.1 4.3 1.1 5 0 9-4 9-9s-4-8.9-9-8.9z"/></svg>
+            Pedir informes por WhatsApp
+          </a>
+          <a class="btn secondary" href="https://cecce.com.mx/page/registro.html">
+            Iniciar registro
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="callout">
+    <div class="callout-inner">
+      <div>
+        <h2>¿Listo para dar el siguiente <em>paso</em>?</h2>
+        <p class="callout-lead">Reúne tus documentos (INE, CURP, acta, comprobante de domicilio y certificado de prepa) y da de alta tu cuenta. Un asesor te contactará el mismo día.</p>
+      </div>
+      <div class="callout-ctas">
+        <a class="btn primary" href="https://cecce.com.mx/page/registro.html">Iniciar registro</a>
+        <a class="btn secondary" href="https://wa.me/525581946388">Hablar con un asesor</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="brand-note">
+        <span>CECCE</span>
+        <span class="dash"></span>
+        <span style="color: var(--ink-muted); font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 13px;">Oferta académica 2026</span>
+      </div>
+      <div>cecce.ingresos@gmail.com · 55 8194 6388</div>
+    </div>
+  </footer>
+
+  <script>
+    const programas = [
+      {
+        nombre: "Licenciatura en pedagogía",
+        resumen: "Forma profesionales capaces de diseñar, gestionar y evaluar procesos educativos en contextos diversos.",
+        costo: "$1,800 / mes",
+        duracion: "3 años · 9 cuatrimestres",
+        horario: "Sábados 8:00 – 14:00 h",
+        modalidad: "Mixta (presencial y en línea)",
+        titulacion: "Por promedio, tesina o EGEL",
+        destaca: [
+          "Prácticas en instituciones educativas desde el primer año",
+          "Enfoque en educación inclusiva y neurodiversidad",
+          "Laboratorio de didáctica aplicada con proyectos reales"
+        ],
+        requisitos: [
+          "Certificado de bachillerato",
+          "INE o pasaporte vigente",
+          "Acta de nacimiento",
+          "CURP y comprobante de domicilio"
+        ]
+      },
+      {
+        nombre: "Licenciatura en derecho",
+        resumen: "Prepara abogados con sólida formación jurídica y perspectiva humanista para resolver conflictos en cualquier ámbito.",
+        costo: "$2,100 / mes",
+        duracion: "4 años · 12 cuatrimestres",
+        horario: "Sábados y domingos",
+        modalidad: "Mixta (presencial y en línea)",
+        titulacion: "Por promedio, tesis o EGEL",
+        destaca: [
+          "Clínica jurídica supervisada por litigantes activos",
+          "Simulaciones de juicios orales en sala real",
+          "Convenios con despachos para prácticas profesionales"
+        ],
+        requisitos: [
+          "Certificado de bachillerato",
+          "INE o pasaporte vigente",
+          "Acta de nacimiento",
+          "CURP y comprobante de domicilio"
+        ]
+      },
+      {
+        nombre: "Licenciatura en negocios internacionales",
+        resumen: "Forma estrategas capaces de operar empresas en entornos globales y mercados multiculturales.",
+        costo: "$2,000 / mes",
+        duracion: "3 años · 9 cuatrimestres",
+        horario: "Sábados 8:00 – 14:00 h",
+        modalidad: "En línea y mixta",
+        titulacion: "Por promedio, proyecto empresarial o EGEL",
+        destaca: [
+          "Enfoque fuerte en comercio exterior y aduanas",
+          "Inglés de negocios integrado al plan de estudios",
+          "Análisis de casos de empresas mexicanas globales"
+        ],
+        requisitos: [
+          "Certificado de bachillerato",
+          "INE o pasaporte vigente",
+          "Acta de nacimiento",
+          "CURP y comprobante de domicilio"
+        ]
+      },
+      {
+        nombre: "Licenciatura en administración de empresas",
+        resumen: "Desarrolla competencias para dirigir organizaciones, optimizar recursos y liderar equipos de alto desempeño.",
+        costo: "$1,900 / mes",
+        duracion: "3 años · 9 cuatrimestres",
+        horario: "Sábados 8:00 – 14:00 h",
+        modalidad: "Mixta (presencial y en línea)",
+        titulacion: "Por promedio, tesis o EGEL",
+        destaca: [
+          "Simulador de negocios con datos reales de mercado",
+          "Finanzas corporativas y mercadotecnia aplicadas",
+          "Programa de mentoría con empresarios activos"
+        ],
+        requisitos: [
+          "Certificado de bachillerato",
+          "INE o pasaporte vigente",
+          "Acta de nacimiento",
+          "CURP y comprobante de domicilio"
+        ]
+      }
+    ];
+
+    const iconAttrs = 'fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
+    const icons = {
+      costo: `<svg viewBox="0 0 24 24" ${iconAttrs}><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+      duracion: `<svg viewBox="0 0 24 24" ${iconAttrs}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+      horario: `<svg viewBox="0 0 24 24" ${iconAttrs}><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>`,
+      modalidad: `<svg viewBox="0 0 24 24" ${iconAttrs}><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>`,
+      titulacion: `<svg viewBox="0 0 24 24" ${iconAttrs}><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M6 10v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>`
+    };
+
+    const kickerText = document.getElementById('kickerText');
+    const progName = document.getElementById('progName');
+    const progDesc = document.getElementById('progDesc');
+    const factsEl = document.getElementById('facts');
+    const highlightsEl = document.getElementById('highlights');
+    const requisitosEl = document.getElementById('requisitos');
+    const detailEl = document.getElementById('detail');
+    const indexItems = document.querySelectorAll('.index-item');
+
+    function paintProgram(index) {
+      const p = programas[index];
+      detailEl.classList.add('switching');
+
+      setTimeout(() => {
+        kickerText.textContent = 'Licenciatura ' + String(index + 1).padStart(2, '0');
+        progName.textContent = p.nombre;
+        progDesc.textContent = p.resumen;
+
+        const factData = [
+          ['costo', 'Costo', p.costo],
+          ['duracion', 'Duración', p.duracion],
+          ['horario', 'Horario', p.horario],
+          ['modalidad', 'Modalidad', p.modalidad],
+          ['titulacion', 'Titulación', p.titulacion]
+        ];
+        factsEl.innerHTML = factData.map(([k, label, val]) =>
+          `<div class="fact"><div class="label">${icons[k]}${label}</div><div class="val">${val}</div></div>`
+        ).join('');
+
+        highlightsEl.innerHTML = p.destaca.map(x => `<li>${x}</li>`).join('');
+        requisitosEl.innerHTML = p.requisitos.map(x => `<li>${x}</li>`).join('');
+
+        detailEl.classList.remove('switching');
+      }, 150);
+    }
+
+    indexItems.forEach(item => {
+      item.addEventListener('click', () => {
+        indexItems.forEach(x => {
+          x.classList.remove('active');
+          x.setAttribute('aria-selected', 'false');
+        });
+        item.classList.add('active');
+        item.setAttribute('aria-selected', 'true');
+        paintProgram(parseInt(item.dataset.i, 10));
+        if (window.innerWidth <= 960) {
+          item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    });
+
+    paintProgram(0);
+  </script>
+</body>
+</html>
